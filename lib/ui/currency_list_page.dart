@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ntt_flutter_test/viewmodel/currency_list_viewmodel.dart';
 import 'package:ntt_flutter_test/widget/currency_list_widget.dart';
+import 'package:ntt_flutter_test/widget/search_widget.dart';
 import 'package:provider/provider.dart';
 
 class CurrencyListPage extends StatefulWidget {
@@ -36,26 +37,11 @@ class _CurrencyListPageState extends State<CurrencyListPage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Container(
-              color: Colors.grey.withOpacity(0.25),
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(50.0, 0.0, 10.0, 0.0),
-                child: Row(children: [
-                  Expanded(
-                      child: TextField(
-                          controller: _filterController,
-                          decoration: InputDecoration(labelText: "Search", labelStyle: TextStyle(color: Colors.grey), border: InputBorder.none),
-                          style: TextStyle(color: Colors.black, fontSize: 18.0),
-                          onSubmitted: (text) {
-                            viewModel.filterCurrency(text);
-                          })),
-                  IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        viewModel.filterCurrency(_filterController.text);
-                      })
-                ]),
-              )),
+          SearchWidget(
+              filterController: _filterController,
+              onSearchClick: (text) {
+                viewModel.filterCurrency(text);
+              }),
           Expanded(child: RefreshIndicator(onRefresh: _refresh, child: CurrencyList(currencies: viewModel.currencyList, clickable: true)))
         ],
       ),
