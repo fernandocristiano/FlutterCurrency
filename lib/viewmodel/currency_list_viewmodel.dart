@@ -29,7 +29,6 @@ class CurrencyListViewModel extends ChangeNotifier {
 
       _currencyList = _currencyListBackup;
     } catch (e) {
-      print("Error ${e.toString()}");
       print(e);
     }
     notifyListeners();
