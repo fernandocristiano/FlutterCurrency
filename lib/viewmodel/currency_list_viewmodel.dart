@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:ntt_flutter_test/model/currency_model.dart';
 import 'package:ntt_flutter_test/repository/currency_repository.dart';
 
-class CurrencyListViewModel with ChangeNotifier {
+class CurrencyListViewModel extends ChangeNotifier {
+  CurrencyRepository repository = CurrencyRepository();
+
   List<Currency> _currencyList = [];
   List<Currency> _currencyListBackup = [];
   List<String> _currenciesMapKeys = [];
 
-  List<Currency> get currencyList {
-    return _currencyList;
-  }
+  List<Currency> get currencyList => _currencyList;
 
   Future<void> filterCurrency(String value) async {
     _currencyList = _currencyListBackup.where((element) => element.name.toUpperCase().contains(value.toUpperCase()) || element.code.toUpperCase().contains(value.toUpperCase())).toList();
@@ -18,7 +18,7 @@ class CurrencyListViewModel with ChangeNotifier {
 
   Future<void> fetchCurrencies() async {
     try {
-      Map<String, dynamic> currencies = await CurrencyRepository().fetchAllCurrency();
+      Map<String, dynamic> currencies = await repository.fetchAllCurrency();
 
       _currenciesMapKeys = currencies.keys.toList();
 
@@ -29,6 +29,7 @@ class CurrencyListViewModel with ChangeNotifier {
 
       _currencyList = _currencyListBackup;
     } catch (e) {
+      print("Error ${e.toString()}");
       print(e);
     }
     notifyListeners();

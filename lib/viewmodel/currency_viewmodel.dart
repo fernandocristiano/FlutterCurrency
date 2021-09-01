@@ -3,6 +3,8 @@ import 'package:ntt_flutter_test/model/currency_model.dart';
 import 'package:ntt_flutter_test/repository/currency_repository.dart';
 
 class CurrencyViewModel with ChangeNotifier {
+  CurrencyRepository repository = CurrencyRepository();
+
   List<Currency> _currencyList = [];
   List<String> _currenciesMapKeys = [];
 
@@ -12,8 +14,8 @@ class CurrencyViewModel with ChangeNotifier {
 
   Future<void> fetchCurrenciesByCode(String code) async {
     try {
-      Map<String, dynamic> currencies = await CurrencyRepository().fetchAllCurrency();
-      Map<String, dynamic> currenciesValue = await CurrencyRepository().fetchLatestRate(code);
+      Map<String, dynamic> currencies = await repository.fetchAllCurrency();
+      Map<String, dynamic> currenciesValue = await repository.fetchLatestRate(code);
 
       _currenciesMapKeys = currencies.keys.toList();
 
